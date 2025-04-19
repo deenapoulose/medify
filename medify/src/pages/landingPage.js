@@ -28,6 +28,14 @@ function LandingPage() {
       if (selectedState && selectedCity) {
         navigate(`/results?state=${selectedState}&city=${selectedCity}`);
       }
+      // Add inside handleSubmit before navigate()
+axios.get(`https://meddata-backend.onrender.com/data?state=${selectedState}&city=${selectedCity}`)
+  .then((res) => {
+    // Optional: Save hospital data in context or global state if needed
+    navigate(`/results?state=${selectedState}&city=${selectedCity}`);
+  })
+  .catch((err) => console.error(err));
+
     };
   
     return (
