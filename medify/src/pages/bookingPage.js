@@ -14,8 +14,8 @@ function BookingPage() {
     const newBooking = {
       hospital: center["Hospital Name"],
       address: `${center.Address}, ${center.City}, ${center.State} - ${center["ZIP Code"]}`,
-      date,
-      slot,
+      date: date,
+      slot: slot,
     };
 
     const existing = JSON.parse(localStorage.getItem("bookings")) || [];
@@ -33,13 +33,15 @@ function BookingPage() {
   });
 
   return (
-    <div>
+    <div style={{ padding: "1rem" }}>
       <h2>{center["Hospital Name"]}</h2>
 
-      <p><strong>Today:</strong> {availableDates[0]}</p> {/* ✅ Added for Cypress */}
-
-      <label>Select Date:</label>
-      <select onChange={(e) => setDate(e.target.value)} value={date}>
+      <label htmlFor="date">Select Date:</label>
+      <select
+        id="date"
+        onChange={(e) => setDate(e.target.value)}
+        value={date}
+      >
         <option value="">Select Date</option>
         {availableDates.map((d, index) => (
           <option key={index} value={d}>
@@ -50,7 +52,8 @@ function BookingPage() {
 
       <div>
         <p>Select Time Slot:</p>
-        <div>
+        <p>Today</p>
+        <div style={{ display: "flex", gap: "1rem" }}>
           {timeSlots.map((t) => (
             <p
               key={t}
@@ -59,6 +62,9 @@ function BookingPage() {
               style={{
                 cursor: "pointer",
                 fontWeight: slot === t ? "bold" : "normal",
+                border: slot === t ? "2px solid #000" : "1px solid #ccc",
+                padding: "0.5rem 1rem",
+                borderRadius: "6px",
               }}
             >
               {t}
@@ -68,7 +74,9 @@ function BookingPage() {
       </div>
 
       {date && slot && (
-        <button onClick={handleConfirmBooking}>Confirm Booking</button>
+        <button onClick={handleConfirmBooking}>
+          Book FREE Center Visit
+        </button>
       )}
     </div>
   );
