@@ -1,6 +1,8 @@
 import React, { useState, useEffect } from 'react';
 
 function MyBookings() {
+  const stored = localStorage.getItem('bookings'); // changed from 'myBookings'
+
   const [bookings, setBookings] = useState([]);
 
   useEffect(() => {

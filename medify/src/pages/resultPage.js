@@ -35,24 +35,17 @@ function ResultsPage() {
 
   return (
     <div>
-      <h1>
-        {isLoading ? 'Loading hospitals...' : centers.length > 0 ? 
-        `${centers.length} medical centers available in ${city}` : 
-        'No medical centers found'}
-      </h1>
-      
-      {isLoading ? (
-        <p>Loading...</p>
-      ) : (
-        centers.map((center, index) => (
-          <div key={index} className="center-card">
-            <h3>{center['Hospital Name']}</h3>
-            <p>{center.Address}, {center.City}, {center.State} - {center['ZIP Code']}</p>
-            <p>Rating: {center['Hospital overall rating']}</p>
-            <button onClick={() => handleBook(center)}>Book FREE Center Visit</button>
-          </div>
-        ))
-      )}
+    {!isLoading && centers.length > 0 && (
+  centers.map((center, index) => (
+    <div key={index} className="center-card">
+      <h3>{center['Hospital Name']}</h3>
+      <p>{center.Address}, {center.City}, {center.State} - {center['ZIP Code']}</p>
+      <p>Rating: {center['Hospital overall rating']}</p>
+      <button onClick={() => handleBook(center)}>Book FREE Center Visit</button>
+    </div>
+  ))
+)}
+
     </div>
   );
 }
