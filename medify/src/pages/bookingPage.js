@@ -14,14 +14,12 @@ function BookingPage() {
     const newBooking = {
       hospital: center["Hospital Name"],
       address: `${center.Address}, ${center.City}, ${center.State} - ${center["ZIP Code"]}`,
-      date: date,
-      slot: slot,
+      date,
+      slot,
     };
-
     const existing = JSON.parse(localStorage.getItem("bookings")) || [];
     existing.push(newBooking);
     localStorage.setItem("bookings", JSON.stringify(existing));
-
     navigate("/my-bookings");
   };
 
@@ -37,11 +35,7 @@ function BookingPage() {
       <h2>{center["Hospital Name"]}</h2>
 
       <label htmlFor="date">Select Date:</label>
-      <select
-        id="date"
-        onChange={(e) => setDate(e.target.value)}
-        value={date}
-      >
+      <select id="date" onChange={(e) => setDate(e.target.value)} value={date}>
         <option value="">Select Date</option>
         {availableDates.map((d, index) => (
           <option key={index} value={d}>
@@ -74,9 +68,7 @@ function BookingPage() {
       </div>
 
       {date && slot && (
-        <button onClick={handleConfirmBooking}>
-          Book FREE Center Visit
-        </button>
+        <button onClick={handleConfirmBooking}>Confirm Booking</button>
       )}
     </div>
   );
