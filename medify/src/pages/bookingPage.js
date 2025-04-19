@@ -125,19 +125,22 @@ function BookingPage() {
       </select>
 
       <div>
-        <p>Select Time Slot:</p>
-        {timeSlots.map((t) => (
-          <p
-            key={t}
-            onClick={() => setSlot(t)}
-            style={{
-              cursor: 'pointer',
-              fontWeight: slot === t ? 'bold' : 'normal',
-            }}
-          >
-            {t}
-          </p>
-        ))}
+      <p>Select Time Slot:</p>
+<div>
+  {timeSlots.map((t) => (
+    <p
+      key={t}
+      onClick={() => setSlot(t)}
+      style={{
+        cursor: 'pointer',
+        fontWeight: slot === t ? 'bold' : 'normal',
+      }}
+    >
+      {t}
+    </p>
+  ))}
+</div>
+
       </div>
 
       {date && slot && (
