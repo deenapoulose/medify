@@ -1,82 +1,52 @@
-import React, { useState, useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 
 function LandingPage() {
-    const [states, setStates] = useState([]);
-    const [cities, setCities] = useState([]);
-    const [selectedState, setSelectedState] = useState('');
-    const [selectedCity, setSelectedCity] = useState('');
-    const navigate = useNavigate();
-  
-    useEffect(() => {
-      axios.get('https://meddata-backend.onrender.com/states')
-        .then((res) => setStates(res.data))
-        .catch((err) => console.error(err));
-    }, []);
-  
-    useEffect(() => {
-      if (selectedState) {
-        axios.get(`https://meddata-backend.onrender.com/cities/${selectedState}`)
-          .then((res) => setCities(res.data))
-          .catch((err) => console.error(err));
-      }
-    }, [selectedState]);
-   
-    
-  
-    const handleSubmit = (e) => {
-      e.preventDefault();
-    
-      if (selectedState && selectedCity) {
-        axios
-          .get(`https://meddata-backend.onrender.com/data?state=${selectedState}&city=${selectedCity}`)
-          .then(() => {
-            setTimeout(() => {
-              navigate(`/results?state=${selectedState}&city=${selectedCity}`);
-            }, 100); 
-          })
-          .catch((err) => console.error(err));
-      }
-    };
-    
+  const [states, setStates] = useState([]);
+  const [cities, setCities] = useState([]);
+  const [selectedState, setSelectedState] = useState('');
+  const [selectedCity, setSelectedCity] = useState('');
+  const navigate = useNavigate();
 
-  
-    return (
-      <div className="home-page">
-        <nav className="navbar">
-          <ul className="nav-links">
-            <li>Find Doctors</li>
-            <li>Hospitals</li>
-            <li>Medicines</li>
-          </ul>
-        </nav>
-        <section className="search-section">
-          <form onSubmit={handleSubmit} className="search-form">
-            <div id="state" className="dropdown">
-              <label>State:</label>
-              <select value={selectedState} onChange={(e) => setSelectedState(e.target.value)} required>
-                <option value="">Select State</option>
-                {states.map((state) => (
-                  <option key={state} value={state}>{state}</option>
-                ))}
-              </select>
-            </div>
-            <div id="city" className="dropdown">
-              <label>City:</label>
-              <select value={selectedCity} onChange={(e) => setSelectedCity(e.target.value)} required>
-                <option value="">Select City</option>
-                {cities.map((city) => (
-                  <option key={city} value={city}>{city}</option>
-                ))}
-              </select>
-            </div>
-            <button type="submit" className="search-button">Search</button>
-          </form>
-        </section>
-      </div>
-    );
+  useEffect(() => {
+    axios.get('https://meddata-backend.onrender.com/states')
+      .then(res => setStates(res.data))
+      .catch(console.error);
+  }, []);
+
+  useEffect(() => {
+    if (selectedState) {
+      axios.get(`https://meddata-backend.onrender.com/cities/${selectedState}`)
+        .then(res => setCities(res.data))
+        .catch(console.error);
+    }
+  }, [selectedState]);
+
+  const handleSearch = () => {
+    navigate(`/results?state=${selectedState}&city=${selectedCity}`);
   };
-  
+
+  return (
+    <div>
+      <h1>Find Medical Centers</h1>
+      <div id="state">
+        <select onChange={e => setSelectedState(e.target.value)}>
+          <option value="">Select State</option>
+          {states.map((s, i) => <option key={i} value={s}>{s}</option>)}
+        </select>
+      </div>
+
+      <div id="city">
+        <select onChange={e => setSelectedCity(e.target.value)}>
+          <option value="">Select City</option>
+          {cities.map((c, i) => <option key={i} value={c}>{c}</option>)}
+        </select>
+      </div>
+
+      <button id="searchBtn" onClick={handleSearch} type="submit">Search</button>
+    </div>
+  );
+}
 
 export default LandingPage;

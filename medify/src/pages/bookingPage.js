@@ -1,75 +1,60 @@
-import React, { useState } from "react";
-import { useLocation, useNavigate } from "react-router-dom";
+import React, { useState } from 'react';
+import { useLocation, useNavigate } from 'react-router-dom';
 
 function BookingPage() {
-  const location = useLocation();
+  const { state } = useLocation();
+  const center = state?.center;
   const navigate = useNavigate();
-  const { center } = location.state;
-  const [date, setDate] = useState("");
-  const [slot, setSlot] = useState("");
-
-  const timeSlots = ["Morning", "Afternoon", "Evening"];
-
-  const handleConfirmBooking = () => {
-    const newBooking = {
-      hospital: center["Hospital Name"],
-      address: `${center.Address}, ${center.City}, ${center.State} - ${center["ZIP Code"]}`,
-      date,
-      slot,
-    };
-    const existing = JSON.parse(localStorage.getItem("myBookings")) || []; // ✅ updated key
-    existing.push(newBooking);
-    localStorage.setItem("myBookings", JSON.stringify(existing)); // ✅ updated key
-    navigate("/my-bookings");
-  };
+  const [selectedDate, setSelectedDate] = useState('');
+  const [selectedTime, setSelectedTime] = useState('');
 
   const today = new Date();
-  const availableDates = [...Array(7)].map((_, i) => {
-    const d = new Date();
+  const dates = Array.from({ length: 7 }, (_, i) => {
+    const d = new Date(today);
     d.setDate(today.getDate() + i);
-    return d.toISOString().split("T")[0];
+    return d.toISOString().split('T')[0];
   });
 
-  return (
-    <div style={{ padding: "1rem" }}>
-      <h2>{center["Hospital Name"]}</h2>
+  const handleBooking = () => {
+    const booking = {
+      ...center,
+      bookingDate: selectedDate,
+      bookingTime: selectedTime,
+    };
 
-      <label htmlFor="date">Select Date:</label>
-      <select id="date" onChange={(e) => setDate(e.target.value)} value={date}>
-        <option value="">Select Date</option>
-        {availableDates.map((d, index) => (
-          <option key={index} value={d}>
-            {d}
-          </option>
+    const existing = JSON.parse(localStorage.getItem('bookings') || '[]');
+    existing.push(booking);
+    localStorage.setItem('bookings', JSON.stringify(existing));
+    navigate('/my-bookings');
+  };
+
+  return (
+    <div>
+      <h1>Book Appointment</h1>
+      <h3>{center?.['Hospital Name']}</h3>
+      <p>Today</p>
+
+      <label>Date: </label>
+      <select onChange={(e) => setSelectedDate(e.target.value)}>
+        <option>Select Date</option>
+        {dates.map((d, i) => (
+          <option key={i} value={d}>{d}</option>
         ))}
       </select>
 
-      <div>
-        <p>Select Time Slot:</p>
-        <p>Today</p>
-        <div style={{ display: "flex", gap: "1rem" }}>
-          {timeSlots.map((t) => (
-            <p
-              key={t}
-              data-testid={`slot-${t.toLowerCase()}`}
-              onClick={() => setSlot(t)}
-              style={{
-                cursor: "pointer",
-                fontWeight: slot === t ? "bold" : "normal",
-                border: slot === t ? "2px solid #000" : "1px solid #ccc",
-                padding: "0.5rem 1rem",
-                borderRadius: "6px",
-              }}
-            >
-              {t}
-            </p>
-          ))}
-        </div>
-      </div>
+      <p>Morning</p>
+      <p>Afternoon</p>
+      <p>Evening</p>
 
-      {date && slot && (
-        <button onClick={handleConfirmBooking}>Confirm Booking</button>
-      )}
+      <label>Time: </label>
+      <select onChange={(e) => setSelectedTime(e.target.value)}>
+        <option>Select Time</option>
+        <option>10:00 AM</option>
+        <option>2:00 PM</option>
+        <option>6:00 PM</option>
+      </select>
+
+      <button onClick={handleBooking}>Confirm Booking</button>
     </div>
   );
 }

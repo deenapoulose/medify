@@ -1,24 +1,19 @@
 import React from 'react';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
-import LandingPage from './pages/landingPage';
-import ResultsPage from './pages/resultPage';
-import BookingPage from './pages/bookingPage';
-import MyBookings from './pages/mybooking';
-import './App.css';
+import LandingPage from './pages/LandingPage';
+import ResultsPage from './pages/ResultsPage';
+import BookingPage from './pages/BookingPage';
+import MyBookingsPage from './pages/MyBookingsPage';
 
-function App() {
-
-    return (
+export default function App() {
+  return (
     <Router>
       <Routes>
         <Route path="/" element={<LandingPage />} />
         <Route path="/results" element={<ResultsPage />} />
         <Route path="/book" element={<BookingPage />} />
-        <Route path="/my-bookings" element={<MyBookings />} />
+        <Route path="/my-bookings" element={<MyBookingsPage />} />
       </Routes>
     </Router>
   );
-
 }
-
-export default App;
