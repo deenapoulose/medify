@@ -17,9 +17,9 @@ function BookingPage() {
       date,
       slot,
     };
-    const existing = JSON.parse(localStorage.getItem("bookings")) || [];
+    const existing = JSON.parse(localStorage.getItem("myBookings")) || []; // ✅ updated key
     existing.push(newBooking);
-    localStorage.setItem("bookings", JSON.stringify(existing));
+    localStorage.setItem("myBookings", JSON.stringify(existing)); // ✅ updated key
     navigate("/my-bookings");
   };
 
