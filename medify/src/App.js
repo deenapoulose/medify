@@ -6,6 +6,7 @@ import BookingPage from './pages/BookingPage';
 import MyBookingsPage from './pages/MyBookingsPage';
 
 export default function App() {
+  console.log('test')
   return (
     <Router>
       <Routes>
