@@ -8,7 +8,7 @@ function LandingPage() {
   const [selectedState, setSelectedState] = useState('');
   const [selectedCity, setSelectedCity] = useState('');
   const navigate = useNavigate();
-
+ console.log('Landing page')
   useEffect(() => {
     axios.get('https://meddata-backend.onrender.com/states')
       .then(res => setStates(res.data))
